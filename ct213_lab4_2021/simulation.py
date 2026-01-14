@@ -75,7 +75,7 @@ class Simulation:
         :param track: the line track.
         :type track: Track.
         """
-        self.line_follower = line_follower
+        self.line_follower = line_follower 
         self.track = track
         start = self.track.get_initial_point()
         self.line_follower.reset(Pose(start.x, start.y, 0.0))
@@ -140,7 +140,13 @@ class Simulation:
         robot_direction = Vector2(cos(self.line_follower.pose.rotation), sin(self.line_follower.pose.rotation))  # r_k
         dot_product = track_tangent.dot(robot_direction)  # dot(r_k, t_k)
         # Todo: implement
-        return 0.0  # Change this line
+
+        w = 0.5
+        reward_k = linear*dot_product - w*fabs(error)
+        if not detection:
+            return -100
+        
+        return reward_k  # Change this line
 
     def draw(self, window):
         """
